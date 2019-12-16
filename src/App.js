@@ -5,6 +5,7 @@ import SimpleLineChart from './containers/SimpleLineChart'
 import SimpleBarChart from './containers/SimpleBarChart'
 import ThreeDimScatterChart from './containers/ThreeDimScatterChart'
 import TwoLevelPieChart from './containers/TwoLevelPieChart'
+import TwoSimplePieChart from './containers/TwoSimplePieChart'
 
 
 
@@ -15,6 +16,7 @@ function App() {
       <SimpleBarChart/>
       <ThreeDimScatterChart/>
       <TwoLevelPieChart/>
+      <TwoSimplePieChart/>
     </div>
   );
 }

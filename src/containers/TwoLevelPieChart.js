@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  PieChart, Pie, Sector, Cell,
+  PieChart, Pie, Sector, Cell,Legend, Tooltip
 } from 'recharts';
 
 const data01 = [
@@ -27,8 +27,34 @@ export default class Example extends PureComponent {
   render() {
     return (
       <PieChart width={400} height={400}>
-        <Pie data={data01} dataKey="value" cx={200} cy={200} outerRadius={60} fill="#8884d8" />
-        <Pie data={data02} dataKey="value" cx={200} cy={200} innerRadius={70} outerRadius={90} fill="#82ca9d" label />
+        <Pie 
+          data={data01} 
+          dataName="name"
+          dataKey="value" 
+          cx={190} cy={200} 
+          outerRadius={60} 
+          fill="#8884d8" 
+        />
+        <Pie 
+          data={data02} 
+          dataKey="value" 
+          cx={200} cy={200} /* 中心の位置 */
+          innerRadius={70} outerRadius={90} /* 内径と外径サイズ */ 
+          startAngle={90} endAngle={450}  /* topを頂点にしたい場合は、90,450を指定する */
+          fill="#82ca9d" 
+          label={true}   /* bool。trueで値をラベル表示する。 */
+          labelLine={false}
+          legendType={'line'}
+          activeIndex={0} // 
+          activeShape={null}  // アクティブなセクターの形状
+          isAnimationActive={true}
+          animationBegin={800}
+          animationDuration={1000}
+          animationEasing={'linear'}  // 違いがわからない
+        >
+          <Tooltip/>
+<Legend verticalAlign="top" height={36}/>
+        </Pie>
       </PieChart>
     );
   }

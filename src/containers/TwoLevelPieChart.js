@@ -20,6 +20,7 @@ const data02 = [
   { name: 'D1', value: 150 },
   { name: 'D2', value: 50 },
 ];
+const COLORS =['#110000', '#FF0000', '#88FF00', '#0088FF' ]
 
 export default class Example extends PureComponent {
   static jsfiddleUrl = 'https://jsfiddle.net/alidingling/w6wsrc52/';
@@ -34,7 +35,13 @@ export default class Example extends PureComponent {
           cx={190} cy={200} 
           outerRadius={60} 
           fill="#8884d8" 
-        />
+          legendType={'cross'} // legend上のアイコン形状
+        >
+          { //円グラフの色を各領域ごとに分けるように指定
+            data01.map((entry, index) =>
+              <Cell fill={COLORS[index % COLORS.length]} />)
+          }
+        </Pie>
         <Pie 
           data={data02} 
           dataKey="value" 
@@ -44,7 +51,7 @@ export default class Example extends PureComponent {
           fill="#82ca9d" 
           label={true}   /* bool。trueで値をラベル表示する。 */
           labelLine={false}
-          legendType={'line'}
+          legendType={'line'} // legend上のアイコン形状
           activeIndex={0} // 
           activeShape={null}  // アクティブなセクターの形状
           isAnimationActive={true}
@@ -52,9 +59,19 @@ export default class Example extends PureComponent {
           animationDuration={1000}
           animationEasing={'linear'}  // 違いがわからない
         >
-          <Tooltip/>
-<Legend verticalAlign="top" height={36}/>
         </Pie>
+        <Tooltip content={({ active, payload, label }) => {
+          if (active) {
+            return (
+              <div className="custom-tooltip">
+                <p className="label">{`${label} : ${payload[0].value}`}</p>
+                <p className="desc">Anything you want can be displayed here.</p>
+              </div>
+            );
+          }
+          return null;
+        }} />
+        <Legend verticalAlign="bottom" height={36} />
       </PieChart>
     );
   }

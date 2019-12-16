@@ -6,6 +6,7 @@ import SimpleBarChart from './containers/SimpleBarChart'
 import ThreeDimScatterChart from './containers/ThreeDimScatterChart'
 import TwoLevelPieChart from './containers/TwoLevelPieChart'
 import TwoSimplePieChart from './containers/TwoSimplePieChart'
+import CustomContentOfTooltip from './containers/CustomContentOfTooltip'
 
 
 
@@ -17,6 +18,7 @@ function App() {
       <ThreeDimScatterChart/>
       <TwoLevelPieChart/>
       <TwoSimplePieChart/>
+      <CustomContentOfTooltip/>
     </div>
   );
 }

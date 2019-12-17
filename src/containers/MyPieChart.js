@@ -61,7 +61,7 @@ const renderActiveShape = (props) => {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active) return null
   return (
-    <div >
+    <div style={{background:'#ffffbb'}}>
       <p className="label">{getName(payload[0].name)}</p>
     </div>
   );

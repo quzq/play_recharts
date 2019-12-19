@@ -81,6 +81,19 @@ export default class Example extends PureComponent {
 
   render() {
     const dataSource = _.orderBy(data, 'value', 'desc')
+
+    const customLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, index, percent }) => {
+      const RADIAN = Math.PI / 180;
+      const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+      const x = cx + radius * Math.cos(-midAngle * RADIAN);
+      const y = cy + radius * Math.sin(-midAngle * RADIAN);
+      return (
+        <text x={x} y={y} fill="white" textAnchor={'middle'} verticalAlign={'middle'} style={{ fontSize: ((outerRadius - innerRadius) / 5).toFixed(0) }} >
+          {`${(percent * 100).toFixed(0)}%`}
+        </text>
+      );
+    }
+
     return (
       <ResponsiveContainer>
         <PieChart>
@@ -89,9 +102,9 @@ export default class Example extends PureComponent {
             nameKey="code"
             dataKey="value"
             cx="50%" cy="50%" /* 中心の位置 */
-            innerRadius="40%" outerRadius="80%" /* 内径と外径サイズ */
+            innerRadius="40%" outerRadius="90%" /* 内径と外径サイズ */
             startAngle={450} endAngle={90}  /* topを頂点にしたい場合は、90,450を指定する */
-            label={true}   /* bool。trueで値をラベル表示する。 */
+            label={customLabel}   
             labelLine={false}
             legendType={'square'} // legend上のアイコン形状
             activeIndex={this.state.activeIndex} // 
@@ -107,7 +120,14 @@ export default class Example extends PureComponent {
                 <Cell fill={COLORS[index % COLORS.length]} />)
             }
           </Pie>
-          <Tooltip content={CustomTooltip} />
+          <Tooltip content={({ active, payload, label }) => {
+            if (!active) return null
+            return (
+              <div style={{ background: '#ffffbb' }}>
+                <p className="label">{getName(payload[0].name)}</p>
+              </div>
+            );
+          }} />
           <Legend verticalAlign="bottom" formatter={(value, entry) => {
             return <span >{getName(entry.payload.code)}</span>;
           }} />

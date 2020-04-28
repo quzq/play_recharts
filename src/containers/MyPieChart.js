@@ -2,15 +2,16 @@ import React, { PureComponent } from 'react';
 import {
   PieChart, Pie, Sector, Cell,Legend, Tooltip, ResponsiveContainer
 } from 'recharts';
+import {Typography} from "@material-ui/core"
 import * as _ from 'lodash'
 
 const data = [
-  { code: '001', value: 58 },
-  { code: '002', value: 40 },
-  { code: '003', value: 36 },
-  { code: '004', value: 15 },
-  { code: '005', value: 12 },
-  { code: '006', value: 5 },
+  { code: '001', value: 58, name: 'ああああああ', color: 'red' },
+  { code: '002', value: 40, name: 'いいいいいいいいいいいいいいいい', color: 'blue' },
+  { code: '003', value: 36, name: 'ううううう', color: 'green' },
+  { code: '004', value: 15, name: 'ええええええええええええええ', color: 'orange' },
+  { code: '005', value: 12, name: 'おおおおおおおおおお', color: 'brown' },
+  { code: '006', value:  5, name: 'んんんんんんんんんんんんんんん', color: 'grey' },
 ];
 
 const master = [
@@ -48,8 +49,8 @@ const renderActiveShape = (props) => {
       <Sector
         cx={cx}
         cy={cy}
-        innerRadius={innerRadius -5 }
-        outerRadius={outerRadius + 5}
+        innerRadius={innerRadius -35 }
+        outerRadius={outerRadius + 0}
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
@@ -66,8 +67,74 @@ const CustomTooltip = ({ active, payload, label }) => {
     </div>
   );
 };
+const renderLegend = (props) => {
+  const { payload } = props;
 
+  return (
+    <div style={{display:'block'}}>
+  {      
+    payload.map((entry, index) => (
+    //         <span style={{display:'inline', whiteSpace:'nowrap',}} >
+    // <Typography variant="caption" style={{display:'inline', backgroundColor:entry.color, border:'solid 2px #fff', width:'16px'}} >{'　'}</Typography>
+    //         <Typography variant="caption" color="black" style={{display:'inline'}} >*** {entry.value}</Typography>
 
+    //         </span>
+		<div style={{display:'inline', whiteSpace: 'nowrap',fontSize:'small',}}>
+      <svg width="14" height="14" viewBox="0 0 32 32" style={{display: 'inline-block', verticalAlign: 'middle', border: 'solid 2px #fff',}}>
+        <path fill={entry.color} cx="16" cy="16" type="square" transform="translate(16, 16)" d="M-16,-16h32v32h-32Z"></path>
+      </svg>{entry.value}
+    </div>
+
+          // <li key={`item-${index}`}>{entry.value}</li>
+        ))
+        // payload.map((entry, index) => (
+        //   <li key={`item-${index}`}><Typography variant="body2"> {entry.value}</Typography> </li>
+        // ))
+    }
+    </div>
+  );
+}
+
+const renderLegend__ = (props) => {
+  const { payload } = props;
+  const styles = () => ({
+    progressCell: {
+      width: 45,
+      paddingLeft: 0,
+      paddingRight: 0,
+      textAlign: "center"
+    }
+  })
+
+  return (
+        // payload.map((entry, index) => (
+        //   <li key={`item-${index}`}>{JSON.stringify(entry)}</li>
+        // ))
+        payload.map((entry, index) => (
+            <div style={{whiteSpace:'nowrap'}} >
+    <Typography variant="caption" style={{backgroundColor:entry.color, border:'solid 2px #fff',width:'20px'}} >{' '}</Typography>
+            <Typography variant="caption" color="black" style={{}} > {entry.value}</Typography>
+
+            </div>
+        ))
+  );
+}
+const renderLegend_ = (props) => {
+  const { payload } = props;
+
+  return (
+    <ul>
+      {
+        payload.map((entry, index) => (
+          <li key={`item-${index}`}>{entry.value}</li>
+        ))
+        // payload.map((entry, index) => (
+        //   <li key={`item-${index}`}><Typography variant="body2"> {entry.value}</Typography> </li>
+        // ))
+      }
+    </ul>
+  );
+}
 export default class Example extends PureComponent {
   state = {
     activeIndex: null,
@@ -95,7 +162,7 @@ export default class Example extends PureComponent {
     }
 
     return (
-      <ResponsiveContainer>
+      <ResponsiveContainer style={{width:300,height:300}}>
         <PieChart>
           <Pie
             data={dataSource}
@@ -128,9 +195,12 @@ export default class Example extends PureComponent {
               </div>
             );
           }} />
-          <Legend verticalAlign="bottom" formatter={(value, entry) => {
-            return <span >{getName(entry.payload.code)}</span>;
-          }} />
+            <Legend 
+              layout={null} 
+              align={'left'} 
+              verticalAlign={'bottom'} 
+              content={renderLegend}
+            />
         </PieChart>
       </ResponsiveContainer>
     );
